@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, FormEvent, ChangeEvent } from "react";
 
-export const TodoForm = ({ addTodo }) => {
-  const [value, setValue] = useState("");
+interface TodoFormProps {
+  addTodo: (value: string) => void;
+}
 
-  const handleSubmit = (e) => {
-    // prevent default action
+export const TodoForm: React.FC<TodoFormProps> = ({ addTodo }) => {
+  const [value, setValue] = useState<string>("");
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (value) {
-      // add todo
       addTodo(value);
-      // clear form after submission
       setValue("");
     }
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
   };
 
   return (
@@ -19,7 +24,7 @@ export const TodoForm = ({ addTodo }) => {
       <input
         type="text"
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={handleChange}
         className="todo-input"
         placeholder="What is the task today?"
         data-testid="todo-input"

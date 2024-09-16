@@ -4,18 +4,25 @@ import { v4 as uuidv4 } from "uuid";
 import { Todo } from "./Todo";
 import { EditTodoForm } from "./EditTodoForm";
 
-uuidv4();
+interface TodoItem {
+  id: string;
+  task: string;
+  completed: boolean;
+  isEditing: boolean;
+}
 
-export const TodoWrapperLocalStorage = () => {
-  const [todos, setTodos] = useState([]);
+export const TodoWrapperLocalStorage: React.FC = () => {
+  const [todos, setTodos] = useState<TodoItem[]>([]);
 
   useEffect(() => {
-    const savedTodos = JSON.parse(localStorage.getItem("todos")) || [];
+    const savedTodos = JSON.parse(
+      localStorage.getItem("todos") || "[]"
+    ) as TodoItem[];
     setTodos(savedTodos);
   }, []);
 
-  const addTodo = (todo) => {
-    const newTodos = [
+  const addTodo = (todo: string): void => {
+    const newTodos: TodoItem[] = [
       ...todos,
       { id: uuidv4(), task: todo, completed: false, isEditing: false },
     ];
@@ -23,7 +30,7 @@ export const TodoWrapperLocalStorage = () => {
     localStorage.setItem("todos", JSON.stringify(newTodos));
   };
 
-  const toggleComplete = (id) => {
+  const toggleComplete = (id: string): void => {
     const newTodos = todos.map((todo) =>
       todo.id === id ? { ...todo, completed: !todo.completed } : todo
     );
@@ -31,13 +38,13 @@ export const TodoWrapperLocalStorage = () => {
     localStorage.setItem("todos", JSON.stringify(newTodos));
   };
 
-  const deleteTodo = (id) => {
+  const deleteTodo = (id: string): void => {
     const newTodos = todos.filter((todo) => todo.id !== id);
     setTodos(newTodos);
     localStorage.setItem("todos", JSON.stringify(newTodos));
   };
 
-  const editTodo = (id) => {
+  const editTodo = (id: string): void => {
     setTodos(
       todos.map((todo) =>
         todo.id === id ? { ...todo, isEditing: !todo.isEditing } : todo
@@ -45,7 +52,7 @@ export const TodoWrapperLocalStorage = () => {
     );
   };
 
-  const editTask = (task, id) => {
+  const editTask = (task: string, id: string): void => {
     const newTodos = todos.map((todo) =>
       todo.id === id ? { ...todo, task, isEditing: !todo.isEditing } : todo
     );
