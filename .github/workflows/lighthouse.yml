@@ -1,10 +1,9 @@
-name: Playwright Tests
+name: Lighthouse Audit
 on:
   pull_request:
     branches: [main]
 jobs:
-  test:
-    timeout-minutes: 60
+  audit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,11 +20,11 @@ jobs:
           PORT: 3000
       - name: Wait for Application to be Ready
         run: sleep 10
-      - name: Run Playwright tests
-        run: pnpm exec playwright test
+      - name: Run Lighthouse Audit
+        run: pnpm run test:performance
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
-          path: playwright-report/
+          name: lighthouse-report
+          path: lighthouse-reports/
           retention-days: 30
