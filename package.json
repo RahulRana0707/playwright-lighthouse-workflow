@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test:functional": "pnpm playwright test tests/functional",
-    "test:performance": "pnpm playwright test tests/performance"
+    "test:performance": "pnpm playwright --project=chromium test tests/performance"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
