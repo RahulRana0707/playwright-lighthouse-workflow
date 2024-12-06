@@ -4,7 +4,7 @@ import { TodoWrapper } from "./components/TodoWrapper";
 function App() {
   useEffect(() => {
     for (let index = 0; index < 1000; index++) {
-      console.log(index);
+      console.log(index, "Hello");
     }
   }, []);
   return (
